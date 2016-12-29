@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import reducer, { getRootNodeId } from './components/tree/reducers'
 import EditableNode from './components/tree/containers/EditableNode'
 import { getState, setState } from './localStorage'
-import App from './App';
 import './index.css';
 
 const persistedState = getState();

@@ -21,7 +21,7 @@ export default class Node extends Component {
 
   render() {
     const { name, isLeaf, children } = this.props;
-    const { onRemoveClick, onAddChildClick, onEditClick } = this.props;
+    const { onRemoveClick, onEditClick } = this.props;
 
     return (
       <div className={`${isLeaf ? 'editable' : 'tree-node'} ${this.state.isOpen ? 'open' : ''}`}>

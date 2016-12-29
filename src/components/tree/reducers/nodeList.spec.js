@@ -4,12 +4,6 @@ import * as actions from '../actions'
 import nodeListReducer from './nodeList'
 
 describe('nodeListReducer', () => {
-  it('should init state', () => {
-    const expectedState = {};
-
-    expect(nodeListReducer(undefined, {})).toEqual(expectedState);
-  });
-
   it('should handle NODE_CREATE action', () => {
     const nodeId = 2;
     const action = actions.createNode(nodeId);
