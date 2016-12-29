@@ -9,50 +9,58 @@ import * as actions from '../actions'
 
 
 class EditableNode extends Component {
-  handleAddChildClick = () => {
+  static propTypes = {
+    id: PropTypes.string.isRequired
+  };
 
-    const { addChild, createNode, startEditNode, id } = this.props;
+  handleAddChildClick = () => {
+    const { id } = this.props;
+    const { addChild, createNode, startEditNode } = this.props;
+
     const childId = createNode(v4()).id;
+
     addChild(id, childId);
     startEditNode(childId);
   };
 
-  handleRemoveClick = (e) => {
-    e.preventDefault();
+  handleRemoveClick = () => {
+    const { id, parentId } = this.props;
+    const { removeNode, removeChild } = this.props;
 
-    const { removeNode, removeChild, id, parentId } = this.props;
     removeChild(parentId, id);
     removeNode(id);
   };
 
-  handleEditClick = (e) => {
-    e.preventDefault();
-
+  handleEditClick = () => {
     const { startEditNode, id } = this.props;
+
     startEditNode(id);
   };
 
   handleEndEdit = (value) => {
-    const { endEditNode, updateNode, removeNode, removeChild, id, parentId } = this.props;
+    const { id, parentId } = this.props;
+    const { endEditNode, updateNode, removeNode, removeChild } = this.props;
 
-    endEditNode(id);
     if (value.trim() === '') {
       removeChild(parentId, id);
       removeNode(id);
     }
-
-    updateNode(id, value);
+    else {
+      updateNode(id, value);
+      endEditNode(id);
+    }
   };
 
   handleCancelEdit = () => {
-    const { endEditNode, removeChild, removeNode, id, parentId, node } = this.props;
+    const { id, parentId, node } = this.props;
+    const { endEditNode, removeChild, removeNode } = this.props;
 
     if (node.name === undefined || node.name.trim() === '') {
       removeChild(parentId, id);
       removeNode(id);
     }
-
-    endEditNode(id);
+    else
+      endEditNode(id);
   };
 
   renderChild = node => {

@@ -1,5 +1,3 @@
-import { v4 } from 'uuid';
-
 import * as actionTypes from './consts'
 
 export const addChild = (parentId, childId) => ({

@@ -3,6 +3,13 @@ import React, { Component, PropTypes } from 'react'
 export default class NodeEdit extends Component {
   state = { isOpen: false };
 
+  static propTypes = {
+    name: PropTypes.string,
+    isLeaf: PropTypes.bool.isRequired,
+    onCancelEdit: PropTypes.func.isRequired,
+    onEndEdit: PropTypes.func.isRequired,
+  };
+
   handleToggleClick = (e) => {
     e.preventDefault();
 
@@ -24,7 +31,7 @@ export default class NodeEdit extends Component {
   handleKeyPress = (e) => {
     const { onEndEdit } = this.props;
 
-    if (e.charCode == 13)
+    if (e.charCode === 13)
       onEndEdit(this.nameInput.value);
   };
 
@@ -37,7 +44,6 @@ export default class NodeEdit extends Component {
 
   render() {
     const { name, isLeaf, children } = this.props;
-    const { onEndEdit } = this.props;
 
     const editor = (
       <div className="editable-content">

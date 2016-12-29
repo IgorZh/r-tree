@@ -3,6 +3,14 @@ import React, { Component, PropTypes } from 'react'
 export default class Node extends Component {
   state = { isOpen: false };
 
+  static propTypes = {
+    name: PropTypes.string,
+    isLeaf: PropTypes.bool.isRequired,
+    onAddChildClick: PropTypes.func.isRequired,
+    onRemoveClick: PropTypes.func.isRequired,
+    onEditClick: PropTypes.func.isRequired
+  };
+
   handleAddClick = (e) => {
     e.preventDefault();
 
@@ -13,6 +21,20 @@ export default class Node extends Component {
     onAddChildClick();
   };
 
+  handleEditClick = (e) => {
+    e.preventDefault();
+
+    const { onEditClick } = this.props;
+    onEditClick();
+  };
+
+  handleRemoveClick = (e) => {
+    e.preventDefault();
+
+    const { onRemoveClick } = this.props;
+    onRemoveClick();
+  };
+
   handleToggleClick = (e) => {
     e.preventDefault();
 
@@ -21,7 +43,6 @@ export default class Node extends Component {
 
   render() {
     const { name, isLeaf, children } = this.props;
-    const { onRemoveClick, onEditClick } = this.props;
 
     return (
       <div className={`${isLeaf ? 'editable' : 'tree-node'} ${this.state.isOpen ? 'open' : ''}`}>
@@ -29,11 +50,11 @@ export default class Node extends Component {
         <i className="lnr lnr-chevron-right" onClick={this.handleToggleClick}/>
         }
         <div className="tree-node-content editable">
-          <span>{name}</span>
+          <span onClick={this.handleToggleClick}>{name}</span>
           <div className="editable-btns">
-            <i className="editable-btns-edit lnr lnr-pencil" onClick={onEditClick}/>
+            <i className="editable-btns-edit lnr lnr-pencil" onClick={this.handleEditClick}/>
             <i className="lnr lnr-cross" onClick={this.handleAddClick}/>
-            <i className="lnr lnr-trash" onClick={onRemoveClick}/>
+            <i className="lnr lnr-trash" onClick={this.handleRemoveClick}/>
           </div>
         </div>
         {!isLeaf &&
