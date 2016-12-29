@@ -1,3 +1,5 @@
+import { v4 } from 'node-uuid'
+
 import * as actionTypes from '../consts'
 import nodeReducer from './node'
 
@@ -10,7 +12,8 @@ function getAllChildIds(state, nodeId) {
   ), []);
 }
 
-export default (state = {}, action) => {
+const rootId = v4();
+export default (state = { [rootId]: { id: rootId, isRoot: true}}, action) => {
   const { id } = action;
 
   switch (action.type) {
@@ -40,3 +43,6 @@ export default (state = {}, action) => {
       return state;
   }
 }
+
+export const getById = (state, id) => state[id];
+export const getRootId = (state) => Object.values(state).find((node) => node.isRoot).id;

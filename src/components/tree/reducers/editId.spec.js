@@ -1,13 +1,13 @@
 import deepFreeze from 'deep-freeze'
 
 import { startEditNode, endEditNode } from '../actions'
-import editReducer from './edit'
+import editId from './editId'
 
 describe('editReducer', () => {
   it('should init state', () => {
     const expectedState = null;
 
-    expect(editReducer(undefined, {})).toEqual(expectedState);
+    expect(editId(undefined, {})).toEqual(expectedState);
   });
 
   it('should handle NODE_EDIT_START action', () => {
@@ -19,7 +19,7 @@ describe('editReducer', () => {
 
     deepFreeze(action);
 
-    expect(editReducer(state, action)).toEqual(expectedState);
+    expect(editId(state, action)).toEqual(expectedState);
   });
 
   it('should handle NODE_EDIT_START action', () => {
@@ -31,6 +31,6 @@ describe('editReducer', () => {
 
     deepFreeze(action);
 
-    expect(editReducer(state, action)).toEqual(expectedState);
+    expect(editId(state, action)).toEqual(expectedState);
   });
 });
