@@ -3,6 +3,16 @@ import React, { Component, PropTypes } from 'react'
 export default class Node extends Component {
   state = { isOpen: false };
 
+  handleAddClick = (e) => {
+    e.preventDefault();
+
+    if(!this.state.isOpen)
+      this.setState({ isOpen: true });
+
+    const { onAddChildClick } = this.props;
+    onAddChildClick();
+  };
+
   handleToggleClick = (e) => {
     e.preventDefault();
 
@@ -22,7 +32,7 @@ export default class Node extends Component {
           <span>{name}</span>
           <div className="editable-btns">
             <i className="editable-btns-edit lnr lnr-pencil" onClick={onEditClick}/>
-            <i className="lnr lnr-cross" onClick={onAddChildClick}/>
+            <i className="lnr lnr-cross" onClick={this.handleAddClick}/>
             <i className="lnr lnr-trash" onClick={onRemoveClick}/>
           </div>
         </div>

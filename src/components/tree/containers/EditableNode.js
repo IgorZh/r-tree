@@ -9,12 +9,12 @@ import * as actions from '../actions'
 
 
 class EditableNode extends Component {
-  handleAddChildClick = e => {
-    e.preventDefault();
+  handleAddChildClick = () => {
 
-    const { addChild, createNode, id } = this.props;
+    const { addChild, createNode, startEditNode, id } = this.props;
     const childId = createNode(v4()).id;
     addChild(id, childId);
+    startEditNode(childId);
   };
 
   handleRemoveClick = (e) => {
@@ -32,18 +32,26 @@ class EditableNode extends Component {
     startEditNode(id);
   };
 
-  handleEndEdit = (e) => {
-    e.preventDefault();
+  handleEndEdit = (value) => {
+    const { endEditNode, updateNode, removeNode, removeChild, id, parentId } = this.props;
 
-    const { endEditNode, updateNode, id } = this.props;
     endEditNode(id);
-    updateNode(id, e.target.value);
+    if (value.trim() === '') {
+      removeChild(parentId, id);
+      removeNode(id);
+    }
+
+    updateNode(id, value);
   };
 
-  handleCancelEdit = (e) => {
-    e.preventDefault();
+  handleCancelEdit = () => {
+    const { endEditNode, removeChild, removeNode, id, parentId, node } = this.props;
 
-    const { endEditNode, id } = this.props;
+    if (node.name === undefined || node.name.trim() === '') {
+      removeChild(parentId, id);
+      removeNode(id);
+    }
+
     endEditNode(id);
   };
 
@@ -79,7 +87,9 @@ class EditableNode extends Component {
       return <NodeEdit name={node.name}
                        isLeaf={isLeaf}
                        onCancelEdit={this.handleCancelEdit}
-                       onEndEdit={this.handleEndEdit} >{this.renderChild(node)}</NodeEdit>;
+                       onEndEdit={this.handleEndEdit}>
+        {this.renderChild(node)}
+      </NodeEdit>;
     else
       return <Node name={node.name}
                    isLeaf={isLeaf}

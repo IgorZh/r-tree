@@ -5,8 +5,7 @@ export default (state = {}, action) => {
   switch (action.type) {
     case actionTypes.NODE_CREATE:
       return {
-        id: action.id,
-        name: 'test'
+        id: action.id
       };
     case actionTypes.NODE_UPDATE:
       return {

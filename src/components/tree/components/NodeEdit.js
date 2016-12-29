@@ -10,15 +10,29 @@ export default class NodeEdit extends Component {
   };
 
   handleBlur = (e) => {
-    const { onCancelEdit } = this.props;
-    onCancelEdit(e);
+    e.preventDefault();
+    const currentTarget = e.currentTarget;
+
+    setTimeout(() => {
+      if (!currentTarget.contains(document.activeElement)) {
+        const { onCancelEdit } = this.props;
+        onCancelEdit();
+      }
+    }, 0);
   };
 
   handleKeyPress = (e) => {
     const { onEndEdit } = this.props;
 
     if (e.charCode == 13)
-      onEndEdit(e);
+      onEndEdit(this.nameInput.value);
+  };
+
+  handleSaveClick = (e) => {
+    e.preventDefault();
+    const { onEndEdit } = this.props;
+
+    onEndEdit(this.nameInput.value);
   };
 
   render() {
@@ -28,15 +42,15 @@ export default class NodeEdit extends Component {
     const editor = (
       <div className="editable-content">
         <span>{name}</span>
-        <div className="editable-input">
-          <input autoFocus="true"
+        <div tabIndex="1" className="editable-input" onBlur={this.handleBlur}>
+          <input ref={(input) => { this.nameInput = input; }}
+                 autoFocus="true"
                  className="inp"
                  type="text"
                  defaultValue={name}
-                 onBlur={this.handleBlur}
                  onKeyPress={this.handleKeyPress}
           />
-          <i className="editable-sbmt lnr lnr-checkmark-circle" onClick={onEndEdit}/>
+          <i className="editable-sbmt lnr lnr-checkmark-circle" onClick={this.handleSaveClick}/>
         </div>
       </div>);
 
