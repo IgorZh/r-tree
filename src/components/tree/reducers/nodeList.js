@@ -1,18 +1,21 @@
 import * as actionTypes from '../consts'
 import nodeReducer from './node'
 
-function getAllChildIds(state) {
-  return state.childIds.reduce((previousValue, childId) => (
-      [...previousValue, childId, ...getAllChildIds(state[childId])]
-    ), []);
+function getAllChildIds(state, nodeId) {
+  const node = state[nodeId];
+  if (node.childIds === undefined)
+    return [];
+  return node.childIds.reduce((previousValue, childId) => (
+    [...previousValue, childId, ...getAllChildIds(state, childId)]
+  ), []);
 }
 
 export default (state = {}, action) => {
+  const { id } = action;
+
   switch (action.type) {
     case actionTypes.NODE_CREATE:
     case actionTypes.NODE_UPDATE:
-      const { id } = action;
-
       return {
         ...state,
         [id]: nodeReducer(state[id], action)
@@ -28,7 +31,7 @@ export default (state = {}, action) => {
     case actionTypes.NODE_REMOVE:
       const newState = { ...state };
 
-      const allChilsdIds = getAllChildIds(newState[action.id]);
+      const allChilsdIds = getAllChildIds(newState, id);
       delete newState[id];
       allChilsdIds.forEach(id => delete newState[id]);
 

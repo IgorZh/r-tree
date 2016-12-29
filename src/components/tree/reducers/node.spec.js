@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze'
 import * as actions from '../actions'
 import nodeReducer from './node'
 
-describe('nodeReducer', () => {
+describe('nodeListReducer', () => {
   it('should init state', () => {
     const expectedState = {};
 
