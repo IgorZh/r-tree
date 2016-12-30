@@ -33,4 +33,6 @@ npm start
 
 ### Дизайн
 
-Делал [cafa](https://dribbble.com/cafa)
+Не успел раскидать **css** по компонентам.
+
+Дизайн делал [cafa](https://dribbble.com/cafa)
